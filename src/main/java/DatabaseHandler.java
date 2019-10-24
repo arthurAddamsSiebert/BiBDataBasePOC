@@ -5,15 +5,22 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class DatabaseHandler {
-
-
   public static void main(String[] args) throws IOException {
-    String GOOGLE_APPLICATION_CREDENTIALS = "C:\\Users\\A703967\\Desktop\\DHBW\\Semester 3\\DB+\\DBplus private key\\DBplus-191023173134.json";
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FileInputStream serviceAccount = new FileInputStream(GOOGLE_APPLICATION_CREDENTIALS);
+    FileInputStream refreshToken = new FileInputStream("DBplus-191023173134.json");
 
     FirebaseOptions options = new FirebaseOptions.Builder()
-        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+        .setCredentials(GoogleCredentials.fromStream(refreshToken))
+        .setDatabaseUrl("https://dbplus-6b6d0.firebaseio.com")
+        .build();
+
+    FirebaseApp.initializeApp(options);
+  }
+
+  public void connectToDatabase() throws IOException {
+    FileInputStream refreshToken = new FileInputStream("DBplus-191023173134.json");
+
+    FirebaseOptions options = new FirebaseOptions.Builder()
+        .setCredentials(GoogleCredentials.fromStream(refreshToken))
         .setDatabaseUrl("https://dbplus-6b6d0.firebaseio.com")
         .build();
 
@@ -23,4 +30,5 @@ public class DatabaseHandler {
 }
 //
 ////GOOGLE_APPLICATION_CREDENTIALS=C:\Users\A703967\Desktop\DHBW\Semester 3\DB+\DBplus private key\DBplus-191023173134.json
+//$env:GOOGLE_APPLICATION_CREDENTIALS=C:\Users\A703967\Desktop\DHBW\Semester 3\DB+\DBplus private key\DBplus-191023173134.json
 ////    GOOGLE_CLOUD_PROJECT=dbplus-6b6d0
