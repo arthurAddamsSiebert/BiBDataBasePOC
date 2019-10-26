@@ -5,9 +5,8 @@ public class Verleihliste {
   private Kunde kunde;
   private ArrayList<Leihe> liste = new ArrayList<Leihe>();
 
-  public Verleihliste(int VID, Kunde kunde, ArrayList<Leihe> liste) {
+  public Verleihliste(int VID, ArrayList<Leihe> liste) {
     this.VID = VID;
-    this.kunde = kunde;
     this.liste = liste;
   }
 
