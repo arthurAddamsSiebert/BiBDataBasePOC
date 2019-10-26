@@ -11,6 +11,14 @@ public class Mitarbeiter extends Person {
     this.password = password;
   }
 
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
   public int getMID() {
     return MID;
   }
