@@ -1,5 +1,6 @@
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.Date;
 //import jdk.swing.interop.SwingInterOpUtils;
 
 
@@ -177,7 +179,6 @@ public class DatabaseHandler {
     data.put("PLZ",neuKunde.getPLZ());
     data.put("strasse",neuKunde.getStrasse());
     data.put("hausnummer",neuKunde.getHausnummer());
-    int anzahlVerleihlisten = new DatabaseHandler().verleihlisteSize();
     data.put("verleihlisteRef",writeVerleihliste());
     ApiFuture<WriteResult> result = docRef.set(data);
     System.out.println("Update time : " + result.get().getUpdateTime());
@@ -199,7 +200,7 @@ public class DatabaseHandler {
       String strasse = document.getString("strasse");
       String hausnummer = document.getString("hausnummer");
       long verleihlisteRef = document.getLong("verleihlisteRef");
-      Verleihliste verleihliste = handler.getVerleihlisteByID((int)verleihlisteRef);
+      Verleihliste verleihliste = handler.getVerleihlisteByID((int)verleihlisteRef,(int)KID);
       result.add(new Kunde(nachname,vorname,anrede,gebrutstag,wohnort,PLZ,strasse,hausnummer,(int)KID,verleihliste));
     }
     return result;
@@ -215,15 +216,51 @@ public class DatabaseHandler {
     return null;
   }
 
-  public int writeLeihe(Leihe neueLeihe, int kundenID) throws ExecutionException, InterruptedException {
-    return 7;
+  public int writeLeihe(Leihe neueLeihe, int KID) throws ExecutionException, InterruptedException {
+    Kunde kunde = handler.getKundeByID(KID);
+    Verleihliste verleihliste = kunde.getPersVerleihiste();
+    int VID = verleihliste.getVID();
+    ApiFuture<QuerySnapshot> query = db.collection("Verleihliste").document("VID").collection("Leihe").get();
+    QuerySnapshot querySnapshot = query.get();
+    List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+    DocumentReference docRef = db.collection("Verleihliste").document("VID").collection("Leihe").document(documents.size()+"");
+    Map<String, Object> data = new HashMap<>();
+    data.put("LID",documents.size());
+    data.put("Zeitstempel", ""+System.currentTimeMillis());
+    data.put("zeitspanne",neueLeihe.getZeitspanne());
+    data.put("ueberziehungsPreis",neueLeihe.getUeberziehungsPreis());
+    data.put("MID",neueLeihe.getMitarbeiter().getMID());
+    ApiFuture<WriteResult> result = docRef.set(data);
+    System.out.println("Update time : " + result.get().getUpdateTime());
+    return documents.size();
   }
 
-  public void getLeihen(){
-
+  public ArrayList<Leihe> getLeihen(int KID) throws ExecutionException, InterruptedException {
+    Kunde kunde = handler.getKundeByID(KID);
+    Verleihliste verleihliste = kunde.getPersVerleihiste();
+    int VID = verleihliste.getVID();
+    ApiFuture<QuerySnapshot> query = db.collection("Verleihliste").document(VID+"").collection("Leihe").get();
+    QuerySnapshot querySnapshot = query.get();
+    List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+    ArrayList<Leihe> result = new ArrayList<Leihe>();
+    for (QueryDocumentSnapshot document : documents){
+      long LID = document.getLong("LID");
+      String zeitstempel = document.getString("Zeitstempel");
+      long zeitspanne = document.getLong("zeitstempel");
+      double ueberziehungsPreis = document.getDouble("ueberziehungsPreis");
+      long MID = document.getLong("MID");
+      Mitarbeiter mitarbeiter = getMitarbeiterByID((int)MID);
+      result.add(new Leihe((int)LID,zeitstempel,(int)zeitspanne,ueberziehungsPreis,mitarbeiter));
+    }
+    return result;
   }
 
-  public Leihe getLeiheByID(int ID){
+
+  public Leihe getLeiheByID(int ID, int KID) throws ExecutionException, InterruptedException {
+    ArrayList<Leihe> leihen = getLeihen(KID);
+    for (int i = 0;i<leihen.size();i++){
+      if (leihen.get(i).getLID()==ID) return leihen.get(i);
+    }
     return null;
   }
 
@@ -302,7 +339,7 @@ public class DatabaseHandler {
     return documents.size();
   }
 
-  public ArrayList<Verleihliste> getVerleihlisten() throws ExecutionException, InterruptedException {
+  public ArrayList<Verleihliste> getVerleihliste(int KID) throws ExecutionException, InterruptedException {
     ApiFuture<QuerySnapshot> query = db.collection("Verleihliste").get();
     QuerySnapshot querySnapshot = query.get();
     List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
@@ -317,24 +354,19 @@ public class DatabaseHandler {
       for (QueryDocumentSnapshot document2 : documents2){
         long id = document2.getLong("LID");
         int ID = (int)id;
-        leihen.add(handler.getLeiheByID(ID));
+        leihen.add(handler.getLeiheByID(ID, KID));
       }
       result.add(new Verleihliste((int)VID,leihen));
     }
     return result;
   }
 
-  public Verleihliste getVerleihlisteByID(int ID) throws ExecutionException, InterruptedException {
-    ArrayList<Verleihliste> list = handler.getVerleihlisten();
+  public Verleihliste getVerleihlisteByID(int ID, int KID) throws ExecutionException, InterruptedException {
+    ArrayList<Verleihliste> list = handler.getVerleihliste(KID);
     for (int i = 0;i<list.size();i++){
       if (list.get(i).getVID()==ID) return list.get(i);
     }
     return null;
   }
-
-  public int verleihlisteSize(){
-    return 5;
-  }
-
 
 }
