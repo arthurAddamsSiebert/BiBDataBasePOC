@@ -28,6 +28,13 @@ public class DatabaseHandler {
   public static void main(String[] args)
       throws IOException, ExecutionException, InterruptedException {
     handler.connectToDatabase();
+    ArrayList<String> autor = new ArrayList<>();
+    ArrayList<String> genre = new ArrayList<>();
+    autor.add("Steve, Alter");
+    genre.add("Horror");
+    genre.add("Drama");
+    Buch buch = new Buch("666",1,autor,2019,"Pressesprecherei",7.99,"Bad Testing","Test Serie","Ne DOI","AAAAAAAA","Springer",genre,345345,3453,43433);
+    handler.writeBook(buch);
   }
 
 
@@ -44,9 +51,10 @@ public class DatabaseHandler {
   public void writeBook(Buch buch) throws ExecutionException, InterruptedException {
     DocumentReference docRef = db.collection("books").document(buch.getIsbn()+"-"+buch.getExemplarNummer());
     Map<String, Object> data = new HashMap<>();
+
     data.put("isbn",buch.getIsbn());
     data.put("exemplarNummer",buch.getExemplarNummer());
-    data.put("autoren",buch.getAutoren());
+    //data.put("autoren",buch.getAutoren());
     data.put("year",buch.getYear());
     data.put("title",buch.getTitle());
     data.put("price",buch.getPrice());
@@ -55,13 +63,27 @@ public class DatabaseHandler {
     data.put("doi",buch.getDoi());
     data.put("aAbstract",buch.getaAbstract());
     data.put("publisher",buch.getPublischer());
-    data.put("genre",buch.getGenre());
+    //data.put("genre",buch.getGenre());
     data.put("regal",buch.getRegal());
     data.put("zeile",buch.getZeile());
     data.put("stelle",buch.getStelle());
-
     ApiFuture<WriteResult> result = docRef.set(data);
+    docRef = db.collection("books").document(buch.getIsbn()+"-"+buch.getExemplarNummer()).collection("Listen").document("Autoren");
+    Map<String,Object> data2 = new HashMap<>();
+    for (int i = 0;i<buch.getAutoren().size();i++){
+      data2.put("Autor "+i,buch.getAutoren().get(i));
+    }
+    ApiFuture<WriteResult> result2 = docRef.set(data2);
+
+    docRef = db.collection("books").document(buch.getIsbn()+"-"+buch.getExemplarNummer()).collection("Listen").document("Genres");
+    Map<String, Object> data3 = new HashMap<>();
+    for (int i = 0;i<buch.getGenre().size();i++){
+      data3.put("Genre "+i,buch.getGenre().get(i));
+    }
+    ApiFuture<WriteResult> result3 = docRef.set(data3);
     System.out.println("Update time : " + result.get().getUpdateTime());
+    System.out.println("Update time : " + result2.get().getUpdateTime());
+    System.out.println("Update time : " + result3.get().getUpdateTime());
   }
 
   public ArrayList<Buch> getBuecher() throws ExecutionException, InterruptedException {
@@ -69,6 +91,9 @@ public class DatabaseHandler {
     QuerySnapshot querySnapshot = query.get();
     List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
     ArrayList<Buch> result = new ArrayList<Buch>();
+    ApiFuture<QuerySnapshot> query2;
+    QuerySnapshot querySnapshot2;
+    List<QueryDocumentSnapshot> documents2;
     for (QueryDocumentSnapshot document : documents){
       String isbn = document.getString("isbn");
       long exemplarNummer = document.getLong("exemplarNummer");
@@ -85,38 +110,31 @@ public class DatabaseHandler {
       long regal= document.getLong("regal");
       long zeile= document.getLong("zeile");
       long stelle= document.getLong("stelle");
+      query2 = db.collection("books").document(document.getId()).collection("Autoren").get();
+      querySnapshot2 = query2.get();
+      documents2 = querySnapshot2.getDocuments();
+      int i = 0;
+      for (QueryDocumentSnapshot document2 : documents2){
+        autoren.add(document2.getString("Autor "+i));
+        i++;
+      }
+      i = 0;
+      query2 = db.collection("books").document(document.getId()).collection("Genres").get();
+      querySnapshot2 = query2.get();
+      documents2 = querySnapshot2.getDocuments();
+      for (QueryDocumentSnapshot document2 :documents2){
+        genre.add(document2.getString("Genre "+i));
+        i++;
+      }
       result.add(new Buch(isbn,(int)exemplarNummer,autoren,(int)year,title,price,address,series,doi,aAbstract,publisher,genre,(int)regal,(int)zeile,(int)stelle));
-    }
-    for (int i = 0;i<result.size();i++){
-      System.out.println(result.get(i).getIsbn());
-      System.out.println("____");
     }
     return result;
 
   }
   public Buch getBuchByID(String isbnEx) throws ExecutionException, InterruptedException {
-    ApiFuture<QuerySnapshot> query = db.collection("books").get();
-    QuerySnapshot querySnapshot = query.get();
-    List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-    for (QueryDocumentSnapshot document : documents){
-      if (document.getId().equals(isbnEx)){
-        String isbn = document.getString("isbn");
-        long exemplarNummer = document.getLong("exemplarNummer");
-        ArrayList<String> autoren = new ArrayList<String>();
-        long year= document.getLong("year");
-        String title= document.getString("title");
-        double price= document.getDouble("price");
-        String address= document.getString("adress");
-        String series= document.getString("series");
-        String doi= document.getString("doi");
-        String aAbstract= document.getString("aAbstract");
-        String publisher= document.getString("publisher");
-        ArrayList<String> genre = new ArrayList<String>();
-        long regal= document.getLong("regal");
-        long zeile= document.getLong("zeile");
-        long stelle= document.getLong("stelle");
-        return new Buch(isbn,(int)exemplarNummer,autoren,(int)year,title,price,address,series,doi,aAbstract,publisher,genre,(int)regal,(int)zeile,(int)stelle);
-      }
+    ArrayList<Buch> buecher = getBuecher();
+    for (int i = 0;i<buecher.size();i++){
+      if ((buecher.get(i).getIsbn()+"-"+buecher.get(i).getExemplarNummer())==isbnEx) return buecher.get(i);
     }
     return null;
   }
@@ -220,10 +238,10 @@ public class DatabaseHandler {
     Kunde kunde = handler.getKundeByID(KID);
     Verleihliste verleihliste = kunde.getPersVerleihiste();
     int VID = verleihliste.getVID();
-    ApiFuture<QuerySnapshot> query = db.collection("Verleihliste").document("VID").collection("Leihe").get();
+    ApiFuture<QuerySnapshot> query = db.collection("Verleihliste").document(KID+"").collection("Leihe").get();
     QuerySnapshot querySnapshot = query.get();
     List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-    DocumentReference docRef = db.collection("Verleihliste").document("VID").collection("Leihe").document(documents.size()+"");
+    DocumentReference docRef = db.collection("Verleihliste").document(""+KID).collection("Leihe").document(documents.size()+"");
     Map<String, Object> data = new HashMap<>();
     data.put("LID",documents.size());
     data.put("Zeitstempel", ""+System.currentTimeMillis());
@@ -352,9 +370,11 @@ public class DatabaseHandler {
       List<QueryDocumentSnapshot> documents2 = querySnapshot2.getDocuments();
       ArrayList<Leihe> leihen = new ArrayList<>();
       for (QueryDocumentSnapshot document2 : documents2){
-        long id = document2.getLong("LID");
-        int ID = (int)id;
-        leihen.add(handler.getLeiheByID(ID, KID));
+        if (document2.contains("LID")) {
+          long id = document2.getLong("LID");
+          int ID = (int) id;
+          leihen.add(handler.getLeiheByID(ID, KID));
+        }
       }
       result.add(new Verleihliste((int)VID,leihen));
     }
