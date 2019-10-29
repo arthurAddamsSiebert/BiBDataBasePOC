@@ -2,9 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="60b41260-f46d-41a4-bdcb-27f726c15a6a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gradle/4.10/fileChanges/last-build.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/4.10/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/4.10/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_slf4j_nop_1_7_25.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/Buch.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/Buch.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/DatabaseHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/DatabaseHandler.class" afterDir="false" />
@@ -40,27 +47,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/DatabaseHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="50" selection-start-line="50" selection-end-line="50" />
+            <state relative-caret-position="384">
+              <caret line="141" column="27" selection-start-line="141" selection-start-column="14" selection-end-line="141" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6723#6731#0" expanded="true" />
                 <element signature="e#6780#6788#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Buch.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="16" />
-              <folding>
-                <element signature="e#1889#1890#0" expanded="true" />
-                <element signature="e#1910#1911#0" expanded="true" />
-                <element signature="e#2010#2011#0" expanded="true" />
-                <element signature="e#2041#2042#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,7 +71,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
@@ -167,15 +159,16 @@
       <updated>1572205312247</updated>
       <workItem from="1572205313794" duration="2107000" />
       <workItem from="1572294760090" duration="9992000" />
-      <workItem from="1572366446070" duration="2582000" />
+      <workItem from="1572366446070" duration="2880000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14681000" />
+    <option name="totallyTimeSpent" value="14979000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09701493" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -186,8 +179,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.37811485" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4127844" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39869988" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.56229687" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39869988" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -212,18 +205,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/DatabaseHandler.java</url>
-          <line>49</line>
-          <properties />
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="setValue">
@@ -351,9 +332,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.firebase/firebase-admin/6.10.0/bf129e8f6d61cc436904d125bfddb21ed04b3340/firebase-admin-6.10.0-sources.jar!/com/google/firebase/cloud/FirestoreClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="62" column="26" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+          <folding>
+            <element signature="e#3197#3198#0" expanded="true" />
+            <element signature="e#3253#3254#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Buch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
+        <state relative-caret-position="1280">
           <caret line="64" column="16" selection-start-line="64" selection-start-column="16" selection-end-line="64" selection-end-column="16" />
           <folding>
             <element signature="e#1889#1890#0" expanded="true" />
@@ -366,8 +358,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/DatabaseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
+        <state relative-caret-position="384">
+          <caret line="141" column="27" selection-start-line="141" selection-start-column="14" selection-end-line="141" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6723#6731#0" expanded="true" />

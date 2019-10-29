@@ -225,11 +225,11 @@ public class DatabaseHandler {
           zeile = 0;
           regal++;
         }
-        Iterator<Buch> i = buecherVorher.iterator();
+/*        Iterator<Buch> i = buecherVorher.iterator();
         while(i.hasNext()){
           Buch buch= i.next();
           System.out.println(buch.getAutoren());
-        }
+        }*/
       }
 
     }
