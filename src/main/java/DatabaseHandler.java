@@ -26,18 +26,10 @@ import java.util.Date;
 public class DatabaseHandler {
   private Firestore db;
   private static DatabaseHandler handler = new DatabaseHandler();
-
-  public static void main(String[] args)
-      throws IOException, ExecutionException, InterruptedException {
-    handler.connectToDatabase();
-
-    handler.buchConverter();
-
-  }
-
+  
 
   public void connectToDatabase() throws IOException {
-    InputStream serviceAccount = new FileInputStream("C:\\Users\\d073550\\Desktop\\db_priv_key\\dbplus-6b6d0-firebase-adminsdk-pjqw4-983f72addd.json");
+    InputStream serviceAccount = new FileInputStream("C:\\Users\\A703967\\Desktop\\DHBW\\Semester 3\\DB+\\DBplus private key\\dbplus-6b6d0-firebase-adminsdk-pjqw4-15e8888b90.json");
     GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions options = new FirebaseOptions.Builder()
         .setCredentials(credentials)
@@ -46,8 +38,10 @@ public class DatabaseHandler {
     db = FirestoreClient.getFirestore();
   }
 
-  public void writeBook(Buch buch) throws ExecutionException, InterruptedException {
+  public void writeBook(Buch buch) throws ExecutionException, InterruptedException, IOException {
     //System.out.println("test test test test");
+    //handler.connectToDatabase();
+    db = FirestoreClient.getFirestore();
     DocumentReference docRef = db.collection("books").document(buch.getIsbn()+"-"+buch.getExemplarNummer());
     //System.out.println("test test test test");
     Map<String, Object> data = new HashMap<>();
@@ -139,7 +133,7 @@ public class DatabaseHandler {
     return null;
   }
 
-  public void buchConverter() throws ExecutionException, InterruptedException {
+  public void buchConverter() throws ExecutionException, InterruptedException, IOException {
     int regal = 1;
     int zeile = 1;
     int stelle = 1;
