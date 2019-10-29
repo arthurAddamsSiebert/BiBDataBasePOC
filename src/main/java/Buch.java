@@ -24,7 +24,9 @@ public class Buch {
     this.isbn = isbn;
     this.exemplarNummer = exemplarNummer;
     this.autoren = autoren;
+    //System.out.println(autoren);
     this.year = year;
+    //System.out.println("_"+year+"_");
     this.title = title;
     this.price = price;
     this.address = address;
@@ -37,6 +39,28 @@ public class Buch {
     Zeile = zeile;
     Stelle = stelle;
   }
+
+/*  public Buch(String isbn, int exemplarNummer, ArrayList<String> autoren, String year,
+      String title, double price, String address, String series, String doi,
+      String aAbstract, String publisher, ArrayList<String> genre, int regal, int zeile,
+      int stelle) {
+    this.isbn = isbn;
+    this.exemplarNummer = exemplarNummer;
+    this.autoren = autoren;
+    System.out.println("_"+year+"_");
+    this.year = Integer.parseInt(year);
+    this.title = title;
+    this.price = price;
+    this.address = address;
+    this.series = series;
+    this.doi = doi;
+    this.aAbstract = aAbstract;
+    this.publisher = publisher;
+    this.genre = genre;
+    Regal = regal;
+    Zeile = zeile;
+    Stelle = stelle;
+  }*/
 
   public String getIsbn() {
     return isbn;

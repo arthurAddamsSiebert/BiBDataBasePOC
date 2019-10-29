@@ -1,3 +1,4 @@
+
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.Timestamp;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -28,18 +30,14 @@ public class DatabaseHandler {
   public static void main(String[] args)
       throws IOException, ExecutionException, InterruptedException {
     handler.connectToDatabase();
-    ArrayList<String> autor = new ArrayList<>();
-    ArrayList<String> genre = new ArrayList<>();
-    autor.add("Steve, Alter");
-    genre.add("Horror");
-    genre.add("Drama");
-    Buch buch = new Buch("666",1,autor,2019,"Pressesprecherei",7.99,"Bad Testing","Test Serie","Ne DOI","AAAAAAAA","Springer",genre,345345,3453,43433);
-    handler.writeBook(buch);
+
+    handler.buchConverter();
+
   }
 
 
   public void connectToDatabase() throws IOException {
-    InputStream serviceAccount = new FileInputStream("C:\\Users\\A703967\\Desktop\\DHBW\\Semester 3\\DB+\\DBplus private key\\dbplus-6b6d0-firebase-adminsdk-pjqw4-c98218d98b.json");
+    InputStream serviceAccount = new FileInputStream("C:\\Users\\d073550\\Desktop\\db_priv_key\\dbplus-6b6d0-firebase-adminsdk-pjqw4-983f72addd.json");
     GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
     FirebaseOptions options = new FirebaseOptions.Builder()
         .setCredentials(credentials)
@@ -49,12 +47,14 @@ public class DatabaseHandler {
   }
 
   public void writeBook(Buch buch) throws ExecutionException, InterruptedException {
+    //System.out.println("test test test test");
     DocumentReference docRef = db.collection("books").document(buch.getIsbn()+"-"+buch.getExemplarNummer());
+    //System.out.println("test test test test");
     Map<String, Object> data = new HashMap<>();
 
     data.put("isbn",buch.getIsbn());
     data.put("exemplarNummer",buch.getExemplarNummer());
-    //data.put("autoren",buch.getAutoren());
+    data.put("autoren",buch.getAutoren());
     data.put("year",buch.getYear());
     data.put("title",buch.getTitle());
     data.put("price",buch.getPrice());
@@ -63,7 +63,7 @@ public class DatabaseHandler {
     data.put("doi",buch.getDoi());
     data.put("aAbstract",buch.getaAbstract());
     data.put("publisher",buch.getPublischer());
-    //data.put("genre",buch.getGenre());
+    data.put("genre",buch.getGenre());
     data.put("regal",buch.getRegal());
     data.put("zeile",buch.getZeile());
     data.put("stelle",buch.getStelle());
@@ -148,26 +148,76 @@ public class DatabaseHandler {
     DatabaseHandler handler = new DatabaseHandler();
     List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
     ArrayList<Buch> buecherVorher = new ArrayList<Buch>();
+
     for (QueryDocumentSnapshot document : documents){
-      String isbn = document.getString("isbn");
-      long exemplarNummer = 1;
+
+      String isbn = "";
+      String address = "";
+      String doi = "";
+      String  aAbstract = "";
+      String publisher = "";
+      String jahr;
+      //int jahrInt=0;
+      //int y = jahr.intValue();
+      String title = "";
       ArrayList<String> autoren = new ArrayList<String>();
-      autoren.add(document.getString("author"));
-      String jahr= document.getString("year");
-      String title= document.getString("title");
+      ArrayList<String> genre = new ArrayList<String>();
+
+      if(document.contains("isbn")) {
+        isbn = document.getString("isbn");
+      }
+
+      long exemplarNummer = 1;
+
+      if(document.contains("author")) {
+        String autor= document.getString("author");
+        autoren.add(autor);
+      }else{
+        autoren.add("kein Author vorhanden!");
+
+      }
+      if(document.contains("isbn")) {
+        isbn = document.getString("isbn");
+      }
+
+      if(document.contains("year")) {
+        jahr = document.getString("year");
+        //jahrInt = Integer.parseInt(jahr);
+      }else {
+        jahr = "20000";
+      }
+
+      if(document.contains("title")) {
+        title= document.getString("title");
+      }
       double price= 9.99;
-      String address= document.getString("adress");
+
+      if(document.contains("adress")) {
+        address= document.getString("adress");
+      }
+
       String series = "";
       if(document.contains("series")) {
         series = document.getString("series");
       }
-      String doi= document.getString("doi");
-      String  aAbstract = "";
-      String publisher= document.getString("publisher");
-      ArrayList<String> genre = new ArrayList<String>();
+      if(document.contains("doi")) {
+        doi= document.getString("doi");
+      }
+
+      if(document.contains("aAbstract")) {
+        aAbstract= document.getString("aAbstract");
+      }
+      if(document.contains("publisher")) {
+        publisher= document.getString("publisher");
+      }
+
+
+
       buecherVorher.add(new Buch(isbn,(int)exemplarNummer,autoren,Integer.parseInt(jahr),title,price,address,series,doi,aAbstract,publisher,genre,regal,zeile,stelle));
       stelle++;
-      autoren.remove(0);
+      if (autoren.size()>1) {
+        autoren.remove(0);
+      }
       if (stelle>10){
         zeile++;
         stelle = 0;
@@ -175,7 +225,13 @@ public class DatabaseHandler {
           zeile = 0;
           regal++;
         }
+        Iterator<Buch> i = buecherVorher.iterator();
+        while(i.hasNext()){
+          Buch buch= i.next();
+          System.out.println(buch.getAutoren());
+        }
       }
+
     }
     for (int i = 0;i<buecherVorher.size();i++){
       handler.writeBook(buecherVorher.get(i));
