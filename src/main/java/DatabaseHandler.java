@@ -26,7 +26,7 @@ import java.util.Date;
 public class DatabaseHandler {
   private Firestore db;
   private static DatabaseHandler handler = new DatabaseHandler();
-  
+
 
   public void connectToDatabase() throws IOException {
     InputStream serviceAccount = new FileInputStream("C:\\Users\\A703967\\Desktop\\DHBW\\Semester 3\\DB+\\DBplus private key\\dbplus-6b6d0-firebase-adminsdk-pjqw4-15e8888b90.json");
@@ -37,6 +37,7 @@ public class DatabaseHandler {
     FirebaseApp.initializeApp(options);
     db = FirestoreClient.getFirestore();
   }
+
 
   public void writeBook(Buch buch) throws ExecutionException, InterruptedException, IOException {
     //System.out.println("test test test test");
@@ -298,6 +299,7 @@ public class DatabaseHandler {
     data.put("zeitspanne",neueLeihe.getZeitspanne());
     data.put("ueberziehungsPreis",neueLeihe.getUeberziehungsPreis());
     data.put("MID",neueLeihe.getMitarbeiter().getMID());
+    data.put("ISBN",neueLeihe.getBuch().getIsbn()+"-"+neueLeihe.getBuch().getExemplarNummer());
     ApiFuture<WriteResult> result = docRef.set(data);
     System.out.println("Update time : " + result.get().getUpdateTime());
     return documents.size();
@@ -317,8 +319,9 @@ public class DatabaseHandler {
       long zeitspanne = document.getLong("zeitstempel");
       double ueberziehungsPreis = document.getDouble("ueberziehungsPreis");
       long MID = document.getLong("MID");
+      String ISBN = document.getString("ISBN");
       Mitarbeiter mitarbeiter = getMitarbeiterByID((int)MID);
-      result.add(new Leihe((int)LID,zeitstempel,(int)zeitspanne,ueberziehungsPreis,mitarbeiter));
+      result.add(new Leihe((int)LID,zeitstempel,(int)zeitspanne,ueberziehungsPreis,mitarbeiter, getBuchByID(ISBN)));
     }
     return result;
   }

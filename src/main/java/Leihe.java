@@ -4,14 +4,26 @@ public class Leihe {
   private int Zeitspanne;
   private double ueberziehungsPreis;
   private Mitarbeiter mitarbeiter;
+  private Buch buch;
 
+
+  //ISBN zu Buch ändern
   public Leihe(int LID, String zeitstempel, int zeitspanne, double ueberziehungsPreis,
-      Mitarbeiter mitarbeiter) {
+      Mitarbeiter mitarbeiter, Buch buch) {
     this.LID = LID;
     this.Zeitstempel = zeitstempel;
     this.Zeitspanne = zeitspanne;
     this.ueberziehungsPreis = ueberziehungsPreis;
     this.mitarbeiter = mitarbeiter;
+    this.buch = buch;
+  }
+
+  public Buch getBuch() {
+    return buch;
+  }
+
+  public void setBuch(Buch buch) {
+    this.buch = buch;
   }
 
   public int getLID() {
