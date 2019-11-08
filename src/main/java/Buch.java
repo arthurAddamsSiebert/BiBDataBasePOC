@@ -16,11 +16,36 @@ public class Buch {
   private int Regal;
   private int Zeile;
   private int Stelle;
+  private boolean ausgeliehen;
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getPublisher() {
+    return publisher;
+  }
+
+  public void setPublisher(String publisher) {
+    this.publisher = publisher;
+  }
+
+  public boolean isAusgeliehen() {
+    return ausgeliehen;
+  }
+
+  public void setAusgeliehen(boolean ausgeliehen) {
+    this.ausgeliehen = ausgeliehen;
+  }
 
   public Buch(String isbn, int exemplarNummer, ArrayList<String> autoren, int year,
       String title, double price, String address, String series, String doi,
       String aAbstract, String publisher, ArrayList<String> genre, int regal, int zeile,
-      int stelle) {
+      int stelle, boolean ausgeliehen) {
     this.isbn = isbn;
     this.exemplarNummer = exemplarNummer;
     this.autoren = autoren;
@@ -38,6 +63,7 @@ public class Buch {
     Regal = regal;
     Zeile = zeile;
     Stelle = stelle;
+    this.ausgeliehen = ausgeliehen;
   }
 
 /*  public Buch(String isbn, int exemplarNummer, ArrayList<String> autoren, String year,

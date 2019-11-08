@@ -38,6 +38,10 @@ public class DatabaseHandler {
     db = FirestoreClient.getFirestore();
   }
 
+  public void reconnectToDatabase(){
+    db = FirestoreClient.getFirestore();
+  }
+
 
   public void writeBook(Buch buch) throws ExecutionException, InterruptedException, IOException {
     //System.out.println("test test test test");
@@ -62,6 +66,7 @@ public class DatabaseHandler {
     data.put("regal",buch.getRegal());
     data.put("zeile",buch.getZeile());
     data.put("stelle",buch.getStelle());
+    data.put("ausgeliehen",buch.isAusgeliehen());
     ApiFuture<WriteResult> result = docRef.set(data);
     docRef = db.collection("books").document(buch.getIsbn()+"-"+buch.getExemplarNummer()).collection("Listen").document("Autoren");
     Map<String,Object> data2 = new HashMap<>();
@@ -82,6 +87,7 @@ public class DatabaseHandler {
   }
 
   public ArrayList<Buch> getBuecher() throws ExecutionException, InterruptedException {
+    reconnectToDatabase();
     ApiFuture<QuerySnapshot> query = db.collection("books").get();
     QuerySnapshot querySnapshot = query.get();
     List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
@@ -89,22 +95,81 @@ public class DatabaseHandler {
     ApiFuture<QuerySnapshot> query2;
     QuerySnapshot querySnapshot2;
     List<QueryDocumentSnapshot> documents2;
+    String isbn = "";
+    long exemplarNummer = 0;
+    long year = 0;
+    String title = "";
+    double price = 0;
+    String address = "";
+    String series = "";
+  String doi = "";
+    String aAbstract = "";
+  String publisher = "";
+        long regal = 0;
+        long zeile = 0;
+        long stelle = 0;
     for (QueryDocumentSnapshot document : documents){
-      String isbn = document.getString("isbn");
-      long exemplarNummer = document.getLong("exemplarNummer");
+      if (document.contains("isbn")){
+        isbn = document.getString("isbn");
+      }else {
+        isbn = null;
+      }
+      if(document.contains("exemplarNummer")) {
+        exemplarNummer = document.getLong("exemplarNummer");
+      }else{
+        exemplarNummer = 1;
+      }
       ArrayList<String> autoren = new ArrayList<String>();
-      long year= document.getLong("year");
-      String title= document.getString("title");
-      double price= document.getDouble("price");
-      String address= document.getString("adress");
-      String series= document.getString("series");
-      String doi= document.getString("doi");
-      String aAbstract= document.getString("aAbstract");
-      String publisher= document.getString("publisher");
+      if (document.contains("title")){
+        title= document.getString("title");
+      }else {
+        title = "";
+      }
+      if (document.contains("year")){
+        try {
+          year= document.getLong("year");
+        } catch (Exception e){
+          year = Long.parseLong(document.getString("year"));
+        }
+
+      }else {
+          year = 0;
+      }
+      if (document.contains("price")){
+        try {
+          price= document.getDouble("price");
+        } catch (Exception e){
+          price = Double.parseDouble("99");
+        }
+      }else {
+         price = 0;
+      }
+      if (document.contains("adress")){
+         address= document.getString("adress");
+      }else {
+         address = "";
+      }
+
+       series= document.getString("series");
+       doi= document.getString("doi");
+       aAbstract= document.getString("aAbstract");
+       publisher= document.getString("publisher");
       ArrayList<String> genre = new ArrayList<String>();
-      long regal= document.getLong("regal");
-      long zeile= document.getLong("zeile");
-      long stelle= document.getLong("stelle");
+      if (document.contains("regal") && document.contains("zeile") && document.contains("stelle")){
+         regal= document.getLong("regal");
+         zeile= document.getLong("zeile");
+         stelle= document.getLong("stelle");
+      }
+      else {
+         regal= 0;
+         zeile= 0;
+         stelle= 0;
+      }
+      boolean ausgeliehen = false;
+      if (document.contains("ausgeliehen")){
+        ausgeliehen = document.getBoolean("ausgeliehen");
+      }
+
       query2 = db.collection("books").document(document.getId()).collection("Autoren").get();
       querySnapshot2 = query2.get();
       documents2 = querySnapshot2.getDocuments();
@@ -121,7 +186,7 @@ public class DatabaseHandler {
         genre.add(document2.getString("Genre "+i));
         i++;
       }
-      result.add(new Buch(isbn,(int)exemplarNummer,autoren,(int)year,title,price,address,series,doi,aAbstract,publisher,genre,(int)regal,(int)zeile,(int)stelle));
+      result.add(new Buch(isbn,(int)exemplarNummer,autoren,(int)year,title,price,address,series,doi,aAbstract,publisher,genre,(int)regal,(int)zeile,(int)stelle,ausgeliehen));
     }
     return result;
 
@@ -205,10 +270,13 @@ public class DatabaseHandler {
       if(document.contains("publisher")) {
         publisher= document.getString("publisher");
       }
+      boolean ausgeliehen = false;
+      if (document.contains("ausgeliehen")){
+        ausgeliehen = document.getBoolean("ausgeliehen");
+      }
 
 
-
-      buecherVorher.add(new Buch(isbn,(int)exemplarNummer,autoren,Integer.parseInt(jahr),title,price,address,series,doi,aAbstract,publisher,genre,regal,zeile,stelle));
+      buecherVorher.add(new Buch(isbn,(int)exemplarNummer,autoren,Integer.parseInt(jahr),title,price,address,series,doi,aAbstract,publisher,genre,regal,zeile,stelle,ausgeliehen));
       stelle++;
       if (autoren.size()>1) {
         autoren.remove(0);
@@ -232,6 +300,24 @@ public class DatabaseHandler {
       handler.writeBook(buecherVorher.get(i));
     }
   }
+
+  public void ausleihen(int LID, int KID)
+      throws ExecutionException, InterruptedException, IOException {
+    Buch buchC = getLeiheByID(LID,KID).getBuch();
+    Buch buch = getBuchByID(buchC.getIsbn()+"-"+buchC.getExemplarNummer());
+    buch.setAusgeliehen(true);
+    writeBook(buch);
+  }
+
+  public void zurueckgeben(int LID, int KID)
+      throws ExecutionException, InterruptedException, IOException {
+    Buch buchC = getLeiheByID(LID,KID).getBuch();
+    Buch buch = getBuchByID(buchC.getIsbn()+"-"+buchC.getExemplarNummer());
+    buch.setAusgeliehen(false);
+    writeBook(buch);
+  }
+
+
 
   public void writeKunde(Kunde neuKunde) throws ExecutionException, InterruptedException {
     ApiFuture<QuerySnapshot> query = db.collection("Kunde").get();
@@ -358,6 +444,7 @@ public class DatabaseHandler {
   }
 
   public ArrayList<Mitarbeiter> getMitarbeiter() throws ExecutionException, InterruptedException {
+    reconnectToDatabase();
     ApiFuture<QuerySnapshot> query = db.collection("Mitarbeiter").get();
     QuerySnapshot querySnapshot = query.get();
     List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
