@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">AdvDatabasesBib</string>
+    <string name="contentDescription">Content Description</string>
+    <string name="login">Login</string>
+    <string name="anmelden">Anmelden</string>
+    <string name="logout">Logout</string>
+    <string name="abmelden">Abmelden</string>
+    <string name="mnr">Mitarbeiter-ID</string>
+    <string name="passwort">Passwort</string>
+    <string name="passwort_confirmation">Passwort bestätigen</string>
+    <string name="books">Bücher</string>
+    <string name="options">Optionen</string>
+    <string name="add_customer">(+)Kunde</string>
+    <string name="add_ma">(+)Mitarbeiter</string>
+    <string name="add_book">(+)Buch</string>
+    <string name="add">Hinzufügen</string>
+    <string name="verleihliste">Verleihliste</string>
+    <string name="verleihen">Buch verleihen</string>
+    <string name="verleihen_btn">Verleihen</string>
+
+    <!-- Buch hinzufügen Strings -->
+    <string name="add_book_text">Buch hinzufügen</string>
+    <string name="search_books">Bücher suchen</string>
+    <string name="book_title">Buchtitel</string>
+    <string name="book_abstract">Abstract</string>
+    <string name="author">Autor(en), Bsp: Meier, Jan; Mueller, Max</string>
+    <string name="copy">Exemplar</string>
+    <string name="year">Jahr</string>
+    <string name="genre">Genre</string>
+    <string name="series">Buchserie</string>
+    <string name="isbn">ISBN</string>
+    <string name="doi">DOI</string>
+    <string name="price">Preis</string>
+    <string name="publisher">Herausgeber</string>
+    <string name="address">Verlagsort</string>
+    <string name="regal">Regal</string>
+    <string name="zeile">Zeile</string>
+    <string name="stelle">Stelle</string>
+
+    <!-- Ein bisschen dies, ein bisschen das Strings -->
+    <string name="add_ma_text">Mitarbeiter hinzufügen</string>
+    <string name="search_ma">Mitarbeiter suchen</string>
+    <string name="add_customer_text">Kunde hinzufügen</string>
+    <string name="search_customer">Kunde suchen</string>
+    <string name="search">Suchen</string>
+    <string name="firstname">Vorname</string>
+    <string name="lastname">Nachname</string>
+    <string name="plz">PLZ</string>
+    <string name="street">Straße</string>
+    <string name="haus_nr">Haus-Nr.</string>
+    <string name="city">Wohnort</string>
+    <string name="vers_nr">Versicherungs-Nr.</string>
+    <string name="gender">Geschlecht</string>
+    <string name="kid">Kunden-ID</string>
+    <string name="birthday">Geburtsdatum</string>
+    <string name="ma_infos">Mitarbeiterdetails</string>
+    <string name="customer_infos">Kundendetails</string>
+    <string name="book_infos">Buchdetails</string>
+
+    <!-- Default content -->
+    <string name="pers_info">Persönliche Informationen</string>
+    <string name="weitere_info">Weitere Informationen</string>
+    <string name="anschrift">Anschrift</string>
+    <string name="versicherungsnummer">Versicherungsnummer:</string>
+    <string name="geschlecht">Geschlecht:</string>
+    <string name="geburtsdatum">Geburtsdatum:</string>
+    <string name="authors_text">Autor(en):</string>
+    <string name="authors">Autor(en)</string>
+    <string name="isbn_text">ISBN:</string>
+    <string name="doi_text">DOI:</string>
+    <string name="publisher_text">Herausgeber:</string>
+    <string name="copy_text">Exemplar:</string>
+    <string name="genre_text">Genre:</string>
+    <string name="series_text">Buchserie:</string>
+    <string name="price_text">Preis:</string>
+    <string name="address_text">Verlagsort:</string>
+    <string name="rzs">Regal / Zeile / Stelle:</string>
+    <string name="slash">/</string>
+    <string name="regal_text">Regal:</string>
+    <string name="zeile_text">Zeile:</string>
+    <string name="stelle_text">Stelle:</string>
+</resources>

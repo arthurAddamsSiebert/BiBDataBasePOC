@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ma_view_linLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    android:weightSum="9"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/ma_view_pic"
+        android:contentDescription="@string/contentDescription"
+        android:layout_width="4dp"
+        android:layout_height="130dp"
+        tools:srcCompat="@tools:sample/avatars[11]"
+        android:layout_weight="3"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        android:layout_weight="6">
+
+        <TextView
+            android:id="@+id/ma_view_firstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/firstname"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/ma_view_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lastname"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/ma_view_mnr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mnr"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

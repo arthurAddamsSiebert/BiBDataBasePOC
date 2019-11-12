@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".OptionsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/options"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_margin="8dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/contentDescription"
+            android:layerType="software"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/line"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/find_ma_btn"
+            android:onClick="searchMA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2.5dp"
+            android:text="@string/search_ma"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:background="@color/colorPrimary"
+            android:layout_weight="5"/>
+
+        <Button
+            android:id="@+id/new_ma_btn"
+            android:onClick="addMA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/add_ma"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_weight="5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/find_customer_btn"
+            android:onClick="searchCustomer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2.5dp"
+            android:text="@string/search_customer"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:background="@color/colorPrimary"
+            android:layout_weight="5"/>
+
+        <Button
+            android:id="@+id/new_customer_btn"
+            android:onClick="addCustomer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/add_customer"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_weight="5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <Button
+            android:id="@+id/find_book_btn"
+            android:onClick="searchBooks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2.5dp"
+            android:text="@string/search_books"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:background="@color/colorPrimary"
+            android:layout_weight="5"/>
+
+        <Button
+            android:id="@+id/new_book_btn"
+            android:onClick="addBooks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2.5dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/add_book"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_weight="5"/>
+
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/verleihliste_btn"
+            android:onClick="showVerleihliste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="@string/verleihliste"
+            android:textSize="15sp"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/contentDescription"
+            android:layerType="software"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/line"/>
+
+        <Button
+            android:id="@+id/logout_btn"
+            android:onClick="logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/abmelden"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:background="@color/colorAccent"/>
+
+    </LinearLayout>
+
+</ScrollView>
